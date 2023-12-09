@@ -1,0 +1,56 @@
+<h4><%= link_to "Create New Items", new_item_path %></h4>
+
+
+<h3>All Active Items</h3>
+<% if @active_items.present? %>
+  <p>Here is the list of all active items</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @active_items.each do |i| %>
+        <tr>
+          <td><%= i.id %></td>
+          <td><%= i.name %></td>
+          <td><%= i.created_at %></td>
+          <td><%= link_to "Delete", item_path(i.id), data: { turbo_method: :delete } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No items present. <%= link_to "Create new items?", new_item_path %> or Restore deleted items from the table below.</p>
+<% end %>
+
+<h3>All Soft-deleted Items</h3>
+<% if @deleted_items.present? %>
+  <p>Here is the list of all soft-deleted items</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Deleted At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @deleted_items.each do |i| %>
+        <tr>
+          <td><%= i.id %></td>
+          <td><%= i.name %></td>
+          <td><%= i.deleted_at %></td>
+          <td><%= link_to "Restore", restore_item_path(i.id), data: { turbo_method: :put } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No soft-deleted items present.</p>
+<% end %>
